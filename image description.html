@@ -1,0 +1,92 @@
+
+
+
+<html>
+    <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+.container{
+  display: flex;
+  justify-content: space-between;
+}
+img{
+  height:300px;
+  width: 500px;
+}
+</style>
+
+</head>
+<body>
+  <div class="jumbotron"> 
+      <center>
+          <h1>Image Details</h1>
+  
+              <p>
+                   Give the source of any image for which you<br> want the details of the object inside that image
+              </p>
+              
+              <input type="text" id="image_source">
+                <button type="button" class="btn btn-success" id="demo" >Show Details</button>
+                </center>
+  </div>
+  <div class="container">
+    <div id="display">
+        <h3>Component of the <br>image is as follows</h3>
+    </div>
+    <img id="display_image">
+  </div>
+<script>
+
+  
+ $( document ).ready(function() {
+   $(".container").hide();
+   $("#demo").click(function(){
+    $(".container").show();
+    imageprocessing()
+      
+   });
+});
+  function imageprocessing(){
+  var xhttp = new XMLHttpRequest();
+
+  var uriBase =
+            "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/analyze";
+
+        var params = {
+            "visualFeatures": "Categories,Description,Color",
+            "details": "",
+            "language": "en",
+        };
+      var sourceImageUrl=document.getElementById("image_source").value;
+      document.getElementById("display_image").src=sourceImageUrl;
+        $.ajax({
+   url:  uriBase + "?" + $.param(params),
+   type: "POST",
+   dataType:'json',
+   headers: {
+    "Content-Type":"application/json",
+    "Ocp-Apim-Subscription-Key": "4560cdb572d5487f840b21cedf309172"
+    },
+    data: '{"url": ' + '"' + sourceImageUrl + '"}',
+   async: false,
+   success: function(data){
+     
+     console.log(data.description.tags);
+     for(r in data.description.tags){
+     document.getElementById("display").innerHTML+=data.description.tags[r]+'<br>';
+     }
+   }})
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+.jumbotron{
+    background-image: url(https://o.aolcdn.com/images/dims3/GLOB/legacy_thumbnail/630x315/format/jpg/quality/85/http%3A%2F%2Fi.huffpost.com%2Fgen%2F1071238%2Fimages%2Fh-BLACK-DOG-640x362.jpg);
+    color: blanchedalmond;
+    font-family: sans-serif;
+    font-style: bolder;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+button{
+    color: blanchedalmond;
+    font-family: sans-serif;
+    font-style: bolder;
+    background-color: green;
+    width: 200px;
+    height: 80px;
+    
+}
+#container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+span{
+    font-size: 40px;
+    text-align: center;
+}
+.image_display{
+    height:200px;
+    width: 300px;
+}
+</style>
+<script>
+ 
+ $( document ).ready(function() {
+   $(".image_display").hide();
+   $("#btn").click(function(){
+    $(".image_display").show();
+       give_image_src(1);
+       give_image_src(2);
+       give_image_src(3);
+       give_image_src(4);
+   });
+});
+
+function  give_image_src(a){
+$.ajax({
+	url: 'https://dog.ceo/api/breeds/image/random',
+	type: "POST",
+	success: function(response){
+document.getElementById("image"+a).src=response.message;
+
+	}
+})
+} 
+</script>
+</head>
+<body>
+  
+        <div class="jumbotron">
+
+            <h1>Welcome to CuteDogs</h1>
+
+                <p>
+                    “A dog is the only thing on earth that<br> loves you more than you love yourself.”
+                </p>
+
+
+
+                <span>  Click to see dogs image
+
+            <button type="button" class="btn btn-success" id="btn" onclick="give_image_src()"> <span>Click Here</span>  </button></span>
+        </div>
+<div id="container">
+        <img id="image1" class="image_display">
+        <img id="image2" class="image_display">
+        <img id="image3" class="image_display">
+        <img id="image4" class="image_display">
+</div>
+
+</body>
+</html>

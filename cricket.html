@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<style>
+.jumbotron{
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWF0bSbUE7RbWQduA9OqcGkhpE4kvfqF-l0OaThhk5YGwTJquQ');
+    color: blanchedalmond;
+    font-family: sans-serif;
+    font-style: bolder;
+    text-align: center;
+    height:400px;
+    background-size: cover; 
+}
+input{
+  color: black;
+}
+</style>
+    </head>
+    <body>
+       
+       <div class="jumbotron">
+
+        <h2>Cricket Scores </h2>
+        <p>
+
+        </p>
+         <span>
+          <label> Select Date :</label><input type="date" id="time"></span>
+        <button id="btn" class="btn btn-success" onclick="display()">
+            Live Scores
+        </button>
+        
+      </div>
+        <div id="match">
+           
+        </div>
+
+
+
+
+
+            <script>
+
+
+             function display(){
+             
+                 var arr=[];
+                    var today = document.getElementById("time").value;
+                    today=today+"T00:00:00.000Z";
+                   // console.log(today);
+                    var t=1;
+                  $.ajax({
+   url: 'https://cricapi.com/api/matches/?apikey=K2yCIhwcRJMcHPOAlNDLPFhwUdD2',
+   type: "GET",
+   dataType:'json',
+   async: false,
+   success: function(response){
+      var a=response.matches.length;
+     //console.log(a);
+     
+      for(var i=0;i<a;i++){
+           var mdate=response.matches[i].date;
+         //  console.log(mdate);
+           if(mdate==today){
+          //     console.log("equal");
+               arr.push(response.matches[i].unique_id);
+               
+             //  console.log(response.matches[i]);
+             //  console.log(response.matches[i].score);
+             var s=response.matches[i].unique_id;
+                                                 $.ajax({
+   url: 'https://cricapi.com/api/cricketScore/?apikey=K2yCIhwcRJMcHPOAlNDLPFhwUdD2&unique_id='+s,
+   type: "GET",
+   dataType:'json',
+   success: function(response){
+var e=3;
+      if(response.matchStarted==true){
+       
+   
+        
+      //console.log(response);
+        var team1=response["team-1"];
+        var team2=response["team-2"];
+        var score=response.score;
+   //     console.log(team1+" "+team2);
+    //    console.log(score);
+        document.getElementById("match").innerHTML+=' Match '+t+' <span id="team1">'+team1+'</span> Vs <span id="team2">'+team2+'</span ><div id="score">'+score+'</div><br><br>';
+ 
+  t=t+1;
+ 
+  
+ 
+       
+        }
+      
+      else{
+        //console.log(response);
+        var team1=response["team-1"];
+        var team2=response["team-2"];
+        var score=response.score;
+        document.getElementById("match").innerHTML+=' Match '+t+' <span id="team1">'+team1+'</span> Vs <span id="team2">'+team2+'</span ><div id="score">Match not Started yet</div><br><br>';;
+
+      }
+   }
+ })
+
+
+           }
+         
+      }
+    // console.log(arr);
+     }
+
+
+     
+})
+
+
+                  }
+                    </script>
+    </body>
+</html>

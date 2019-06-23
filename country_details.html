@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+th{
+  background-color: blue;
+  color: aliceblue;
+ text-align: center;
+}
+table{
+  border: 0px solid white;
+}
+select{
+  height: 40px;
+}
+button{
+  height: 40px;
+  width: 70px;
+}
+</style>
+
+</head>
+<body>
+    <div class="jumbotron">
+        <center>
+        <h1>Country Details</h1>
+
+            <p>
+                 Select the country name from the dropdown<br> to see the details of the selected country
+            </p>
+            
+            <select id="mySelect">
+
+              </select>
+              <button type="button" class="btn btn-success" id="demo" >Search</button>
+              </center>
+
+      
+    </div>
+	<div class="container"> 
+		<br>
+		<br>
+
+
+                                                             
+  <div class="table-responsive">  
+  <h2 id="countryname">  </h2>        
+  <table class="table">
+    
+      <tr>
+        <th>Name</th>
+
+ 		<td id="name">   </td>
+      </tr>
+
+      <tr>
+          <th>Flag</th>
+       <td> <img id="i1"  src="">  </td>
+        </tr>
+        <tr>
+            <th>Native Name</th>
+         <td id="native">   </td>
+          </tr>
+      <tr>
+        <th>Capital</th>
+ 		<td id="ca">   </td>
+      </tr>
+      <tr>
+          <th> Language </th>
+       <td id="lang">   </td>
+        </tr>
+        <tr>
+            <th> Time Zone </th>
+         <td id="time">   </td>
+          </tr>
+          <tr>
+              <th> Currency </th>
+           <td id="Currency">   </td>
+            </tr>
+              
+      <tr>
+          <th> Area  </th>
+       <td id="ar">   </td>
+        </tr>
+        <tr>
+            <th>Region </th>
+         <td id="reg">   </td>
+          </tr>
+          <tr>
+              <th>Population</th>
+           <td id="po">   </td>
+            </tr>
+            <tr>
+                <th> Border </th>
+             <td id="border">   </td>
+              </tr>
+        <tr>
+        <th > Alpha Code</th>
+ 		<td id="alp">   </td>
+      </tr>
+
+        <tr>
+        <th>Numeric Code</th>
+ 		<td id="code">   </td>
+      </tr>
+
+      
+
+       
+
+
+         <tr>
+        <th> Top Level Domain  </th>
+ 		<td id="tld">   </td>
+      </tr>
+    
+    
+      	
+
+      	
+
+      	
+    
+  </table>
+  </div>
+
+
+
+<br>
+<br>
+<br>
+
+<script type="text/javascript">
+	
+$(document).ready(function(){
+  $(".table-responsive").hide();
+  $("#demo").click(function(){
+    $(".table-responsive").show();
+    myFunction();
+  })
+})
+        $.ajax({
+   url: 'https://restcountries.eu/rest/v2/all',
+   type: "GET",
+   success: function(response){
+   	for (var i = 0; i < 250; i++) {
+   		
+   	
+       
+          
+//console.log(response.results[r].currencySymbol+" "+response.results[r].currencyId);
+
+var x = document.getElementById("mySelect");
+var option = document.createElement("option");
+option.text = response[i].name;
+option.value=i;
+x.add(option);
+
+       
+     }
+ }
+})
+	//document.getElementById("demo").addEventListener("click", myFunction());
+
+function myFunction() {
+
+console.log("sandip");
+var a = document.getElementById("mySelect").value;
+
+$.ajax({
+	url: 'https://restcountries.eu/rest/v2/all',
+	type: "GET",
+	success: function(response){
+		console.log(a);
+		console.log(response);
+		document.getElementById("name").innerHTML=response[a].name;
+		document.getElementById("countryname").innerHTML=response[a].name;
+		document.getElementById("native").innerHTML=response[a].nativeName;
+		document.getElementById("alp").innerHTML=response[a].alpha3Code;
+		document.getElementById("code").innerHTML=response[a].numericCode;
+		document.getElementById("po").innerHTML=response[a].population;
+		document.getElementById("reg").innerHTML=response[a].region;
+		document.getElementById("ar").innerHTML=response[a].area;
+		document.getElementById("ca").innerHTML=response[a].capital;
+		
+		document.getElementById("i1").src=response[a].flag;
+		document.getElementById("i1").setAttribute(
+   "style", "height: 200px; width: 400px;");
+		
+
+		//var arr = { "one" : 1, "two" : 2, "three": 3 }; 
+		document.getElementById("Currency").innerHTML=""; 
+for(var key in response[a].currencies[0])
+{
+  var value = response[a].currencies[0][key];
+  console.log(key + " = " + value + '\n');
+  document.getElementById("Currency").innerHTML+='<strong>'+key+'</strong>'+" = " + value + '<br>';
+}
+	 document.getElementById("border").innerHTML="";
+
+
+for(var key in response[a].borders)
+{
+  var value = response[a].borders[key];
+ 
+  document.getElementById("border").innerHTML+=value +'<br>';
+}
+
+
+document.getElementById("lang").innerHTML="";
+for (var i = 0; i < response[a].languages.length; i++) {
+
+var e=response[a].languages[i].name;
+document.getElementById("lang").innerHTML+= e+'<br>';
+ // document.getElementById("Currency").innerHTML+='<strong>'+key+'</strong>'+" = " + value + '<br>';
+}
+
+ document.getElementById("time").innerHTML="";
+for(var key in response[a].timezones)
+{
+  var value = response[a].timezones[key];
+ 
+  document.getElementById("time").innerHTML+=value +'<br>';
+}
+
+document.getElementById("tld").innerHTML="";
+for(var key in response[a].topLevelDomain)
+{
+  var value = response[a].topLevelDomain[key];
+ 
+  document.getElementById("tld").innerHTML+=value +'<br>';
+}
+
+}
+})
+}
+
+</script>
+
+</div>
+</body>
+</html>

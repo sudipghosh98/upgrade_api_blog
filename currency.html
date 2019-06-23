@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title></title>
+
+   <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<button type="button" class="btn btn-info" id="demo" onclick="myFunction()" >Info</button>
+<form id="myForm">
+  <select id="selectNumber">
+    <option>Choose a number</option>
+  </select>
+</form>
+<script type="text/javascript">
+   
+
+   //document.getElementById("demo").addEventListener("click", myFunction());
+
+function myFunction() {
+
+console.log("sandip");
+
+// var request = new XMLHttpRequest()
+
+// request.open('GET', 'https://haveibeenpwned.com/api/v2/breachedaccount/sandipghosh8888@gmail.com', true)
+
+//   // Begin accessing JSON data here
+//   var data = JSON.parse(this.response)
+
+//   if (request.status >= 200 && request.status < 400) {
+    
+//       console.log(data)
+    
+//   } else {
+//     console.log('error')
+//   }
+
+
+// request.send()
+// }
+// fetch('https://free.currencyconverterapi.com/api/v6/countries?apiKey=7772e4d6cdb429eb9d6e')
+//   .then(function(response) {
+//     return response.json();
+//   })
+//   .then(function(myJson) {
+//     console.log(JSON.stringify(myJson));
+//   });
+
+
+// $.ajax({
+//    url: 'https://free.currencyconverterapi.com/api/v6/countries?apiKey=7772e4d6cdb429eb9d6e',
+//    type: "GET",
+//    success: function(response){
+//       console.log(response.results[3].currencyId);
+     
+//    }
+// })
+
+
+$.ajax({
+      url: 'https://free.currencyconverterapi.com/api/v6/countries?apiKey=7772e4d6cdb429eb9d6e',
+      type: "GET",
+       success: function(data) {
+          var items = [];
+               console.log(data.results);
+               var select = document.getElementById("selectNumber"); 
+  for(r in data.results)
+  {
+      var key =r;
+      var val=data.results[r].currencyId;
+
+       items.push('<li id="' + key + '">' + val + '</li>');   
+  }
+
+
+   }
+})
+
+ var select = document.getElementById("selectNumber"); 
+ 
+
+for(var i = 0; i < items.length; i++) {
+    var opt = items[i];
+    var el = document.createElement("option");
+    el.textContent = opt;
+    el.value = opt;
+    select.appendChild(el);
+}​
+
+}
+
+
+
+</script>
+
+</body>
+</html>
